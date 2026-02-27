@@ -2,6 +2,8 @@
 
 Analyze any repository for observability gaps and get actionable OpenTelemetry instrumentation recommendations.
 
+![Observability Copilot landing page](docs/landing-page.png)
+
 **Two ways to use it:**
 
 - **[Web UI](web/)** — Sign in with GitHub, pick a repo, get a real-time streamed analysis in your browser. No CI/CD setup required.
