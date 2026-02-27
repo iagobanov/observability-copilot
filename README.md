@@ -1,10 +1,25 @@
 # Observability Copilot
 
-A GitHub Action that analyzes your repository for observability gaps and posts actionable findings as a PR comment. Powered by Claude claude-opus-4-5.
+Analyze any repository for observability gaps and get actionable OpenTelemetry instrumentation recommendations. Powered by Claude.
 
-## What it does
+**Two ways to use it:**
 
-On every pull request, Observability Copilot:
+- **[Web UI](web/)** — Sign in with GitHub, pick a repo, get a real-time streamed analysis in your browser. No CI/CD setup required.
+- **GitHub Action** — Add to any repo and get observability reports as PR comments automatically.
+
+## Web UI
+
+See [`web/README.md`](web/README.md) for setup instructions. Quick start:
+
+```bash
+cd web
+cp .env.local.example .env.local  # fill in GitHub OAuth + NextAuth secret
+npm install && npm run dev
+```
+
+## GitHub Action
+
+On every pull request, the GitHub Action:
 
 1. Scans your repository files (manifests, routes, handlers, configs)
 2. Detects your language and framework
