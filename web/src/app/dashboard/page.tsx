@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { RepoList } from "@/components/repo-list";
 import { AnalysisConfig } from "@/components/analysis-config";
+import { AnalysisHistory } from "@/components/analysis-history";
 import type { RepoSummary } from "@/types";
 
 export default function DashboardPage() {
@@ -20,7 +21,10 @@ export default function DashboardPage() {
           onBack={() => setSelectedRepo(null)}
         />
       ) : (
-        <RepoList onSelect={setSelectedRepo} />
+        <>
+          <RepoList onSelect={setSelectedRepo} />
+          <AnalysisHistory />
+        </>
       )}
     </div>
   );

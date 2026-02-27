@@ -103,13 +103,24 @@ Add `ANTHROPIC_API_KEY` to your repo secrets. That's it.
 - **C# / .NET**
 - **Kotlin**: Ktor
 
+## Analysis History
+
+The Web UI persists analysis results in your browser's localStorage. After running an analysis, the dashboard shows a **Recent Analyses** section with:
+
+- Repository name (links back to re-run)
+- Color-coded coverage score badge (red < 4, yellow 4-6, green > 6)
+- Detected tech stack
+- Relative timestamp
+
+History deduplicates by repo (keeps the latest run) and retains up to 50 entries.
+
 ## Where this is headed
 
-Right now Observability Copilot is a one-shot analysis — you point it at a repo, it tells you what's missing. Useful, but the real product is **longitudinal observability health**: tracking how coverage evolves over time and surfacing that across an org.
+Right now Observability Copilot is a one-shot analysis — you point it at a repo, it tells you what's missing. The analysis history is a first step toward **longitudinal observability health**: tracking how coverage evolves over time and surfacing that across an org.
 
 ### Next steps to get to product-level
 
-- **Persistence** — Store analysis results (coverage score, gap count, stack detected) in a database. Each run becomes a data point, not a throwaway report.
+- **Server-side persistence** — Move from localStorage to a database. Each run becomes a durable data point, not a browser-local cache.
 - **Coverage score tracking** — Plot observability scores over time per repo. Show whether instrumentation is improving or regressing.
 - **PR-level diffs** — Compare analysis before/after a PR. Did this change introduce new gaps? Did it close existing ones? Surface that in the PR itself.
 - **Org dashboard** — Aggregate view across all repos in an org. Which repos are well-instrumented, which are flying blind. Rank by risk.

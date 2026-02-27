@@ -70,5 +70,15 @@ export interface AnalysisState {
   status: AnalysisStatus;
   progress: string[];
   analysisText: string;
+  detectedStack: string;
   error: string | null;
+}
+
+export interface AnalysisRecord {
+  owner: string;
+  repo: string;
+  score: number | null;
+  stack: string;
+  date: string;
+  focusPath: string;
 }

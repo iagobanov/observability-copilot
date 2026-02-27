@@ -7,6 +7,7 @@ const INITIAL_STATE: AnalysisState = {
   status: "idle",
   progress: [],
   analysisText: "",
+  detectedStack: "",
   error: null,
 };
 
@@ -18,6 +19,7 @@ export function useAnalysisStream() {
       status: "connecting",
       progress: ["Connecting..."],
       analysisText: "",
+      detectedStack: "",
       error: null,
     });
 
@@ -64,7 +66,11 @@ export function useAnalysisStream() {
           }
 
           switch (event.type) {
-            case "progress":
+            case "progress": {
+              const detectedStack =
+                event.stage === "detect" && event.detail.startsWith("Detected:")
+                  ? event.detail.replace("Detected:", "").trim()
+                  : undefined;
               setState((s) => ({
                 ...s,
                 status:
@@ -76,8 +82,10 @@ export function useAnalysisStream() {
                         ? "analyzing"
                         : s.status,
                 progress: [...s.progress, event.detail],
+                ...(detectedStack !== undefined && { detectedStack }),
               }));
               break;
+            }
 
             case "analysis_start":
               setState((s) => ({ ...s, status: "analyzing" }));
