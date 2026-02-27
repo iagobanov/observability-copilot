@@ -8,7 +8,7 @@ import json
 import os
 import sys
 
-from github import Github
+from github import Auth, Github
 
 from analyzer import analyze_repository
 from github_commenter import post_comment
@@ -304,7 +304,7 @@ def main() -> None:
     print(f"Max files: {max_files}, Focus path: {focus_path or '(entire repo)'}")
 
     # Connect to GitHub
-    gh = Github(github_token)
+    gh = Github(auth=Auth.Token(github_token))
     repo = gh.get_repo(repo_name)
 
     # Collect files

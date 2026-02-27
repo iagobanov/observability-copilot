@@ -4,7 +4,7 @@
 import json
 import sys
 
-from github import Github
+from github import Auth, Github
 
 COMMENT_MARKER = "<!-- observability-copilot -->"
 
@@ -31,7 +31,7 @@ def post_comment(
         print("::warning::Could not determine PR number from event payload")
         sys.exit(0)
 
-    gh = Github(github_token)
+    gh = Github(auth=Auth.Token(github_token))
     repo = gh.get_repo(repo_name)
     pr = repo.get_pull(pr_number)
 
