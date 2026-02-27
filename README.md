@@ -1,6 +1,6 @@
 # Observability Copilot
 
-Analyze any repository for observability gaps and get actionable OpenTelemetry instrumentation recommendations. Powered by Claude.
+Analyze any repository for observability gaps and get actionable OpenTelemetry instrumentation recommendations.
 
 **Two ways to use it:**
 
