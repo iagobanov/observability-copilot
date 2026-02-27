@@ -103,6 +103,22 @@ Add `ANTHROPIC_API_KEY` to your repo secrets. That's it.
 - **C# / .NET**
 - **Kotlin**: Ktor
 
+## Where this is headed
+
+Right now Observability Copilot is a one-shot analysis — you point it at a repo, it tells you what's missing. Useful, but the real product is **longitudinal observability health**: tracking how coverage evolves over time and surfacing that across an org.
+
+### Next steps to get to product-level
+
+- **Persistence** — Store analysis results (coverage score, gap count, stack detected) in a database. Each run becomes a data point, not a throwaway report.
+- **Coverage score tracking** — Plot observability scores over time per repo. Show whether instrumentation is improving or regressing.
+- **PR-level diffs** — Compare analysis before/after a PR. Did this change introduce new gaps? Did it close existing ones? Surface that in the PR itself.
+- **Org dashboard** — Aggregate view across all repos in an org. Which repos are well-instrumented, which are flying blind. Rank by risk.
+- **Alerts** — Notify when a repo's coverage score drops below a threshold, or when a PR introduces critical observability gaps.
+- **Scheduled scans** — Run analysis on a cron (weekly/monthly) without waiting for PRs. Track drift.
+- **Team ownership mapping** — Connect repos to teams so the org dashboard shows coverage by team, not just by repo.
+
+The analysis engine is the extraction step. Everything above turns it into a product.
+
 ## License
 
 MIT
