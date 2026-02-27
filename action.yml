@@ -1,0 +1,33 @@
+name: "Observability Copilot"
+description: "Analyzes a repository for observability gaps and posts findings as a PR comment"
+author: "Coralogix"
+
+branding:
+  icon: "eye"
+  color: "purple"
+
+inputs:
+  anthropic_api_key:
+    description: "Anthropic API key for Claude"
+    required: true
+  github_token:
+    description: "GitHub token for posting PR comments"
+    required: true
+    default: ${{ github.token }}
+  max_files:
+    description: "Maximum number of files to analyze"
+    required: false
+    default: "50"
+  focus_path:
+    description: "Limit analysis to a specific folder"
+    required: false
+    default: ""
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  env:
+    INPUT_ANTHROPIC_API_KEY: ${{ inputs.anthropic_api_key }}
+    INPUT_GITHUB_TOKEN: ${{ inputs.github_token }}
+    INPUT_MAX_FILES: ${{ inputs.max_files }}
+    INPUT_FOCUS_PATH: ${{ inputs.focus_path }}

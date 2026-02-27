@@ -1,0 +1,16 @@
+name: Observability Copilot (Dogfood)
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  observability:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
