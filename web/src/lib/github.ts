@@ -38,6 +38,17 @@ export async function listUserRepos(
   return repos;
 }
 
+export async function getAccessibleOwners(
+  accessToken: string,
+  login: string
+): Promise<string[]> {
+  const octokit = new Octokit({ auth: accessToken });
+  const { data: orgs } = await octokit.orgs.listForAuthenticatedUser({
+    per_page: 100,
+  });
+  return [login, ...orgs.map((org) => org.login)];
+}
+
 export async function getRepoTree(
   accessToken: string,
   owner: string,

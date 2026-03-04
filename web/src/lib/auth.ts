@@ -4,6 +4,13 @@ import GitHub from "next-auth/providers/github";
 declare module "next-auth" {
   interface Session {
     accessToken?: string;
+    user: {
+      id?: string;
+      login?: string;
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+    };
   }
 }
 
@@ -12,7 +19,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     GitHub({
       clientId: process.env.GITHUB_ID!,
       clientSecret: process.env.GITHUB_SECRET!,
-      authorization: { params: { scope: "read:user user:email repo" } },
+      authorization: { params: { scope: "read:user user:email repo read:org" } },
     }),
   ],
   callbacks: {
@@ -23,14 +30,21 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (isProtected && !session?.user) return false;
       return true;
     },
-    async jwt({ token, account }) {
+    async jwt({ token, account, profile }) {
       if (account) {
         token.accessToken = account.access_token as string | undefined;
+      }
+      if (profile) {
+        token.login = (profile as { login?: string }).login;
       }
       return token;
     },
     async session({ session, token }) {
       session.accessToken = token.accessToken as string | undefined;
+      if (token.sub) {
+        session.user.id = token.sub;
+      }
+      session.user.login = token.login as string | undefined;
       return session;
     },
   },
