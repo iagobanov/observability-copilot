@@ -82,3 +82,46 @@ export interface AnalysisRecord {
   date: string;
   focusPath: string;
 }
+
+export interface AnalysisRunSummary {
+  id: string;
+  owner: string;
+  repo: string;
+  score: number | null;
+  stack: string;
+  focusPath: string;
+  source: string;
+  filesAnalyzed: number | null;
+  createdAt: string;
+}
+
+export interface ScoreDataPoint {
+  date: string;
+  score: number;
+}
+
+export interface RepoTrend {
+  owner: string;
+  repo: string;
+  focusPath: string;
+  latestScore: number | null;
+  previousScore: number | null;
+  delta: number | null;
+  runCount: number;
+  dataPoints: ScoreDataPoint[];
+}
+
+export interface OrgOverview {
+  owner: string;
+  averageScore: number;
+  repoCount: number;
+  totalRuns: number;
+  previousAverageScore: number | null;
+  delta: number | null;
+}
+
+export interface DashboardData {
+  orgs: OrgOverview[];
+  repoTrends: RepoTrend[];
+  recentRuns: AnalysisRunSummary[];
+}

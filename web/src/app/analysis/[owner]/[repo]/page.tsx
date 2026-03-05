@@ -3,7 +3,6 @@
 import { Suspense, useEffect, useRef } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import { useAnalysisStream } from "@/hooks/use-analysis-stream";
-import { parseScore, saveAnalysis } from "@/lib/history";
 import { ProgressDisplay } from "@/components/progress-display";
 import { MarkdownReport } from "@/components/markdown-report";
 import { Button } from "@/components/ui/button";
@@ -33,7 +32,6 @@ function AnalysisPageInner() {
   const searchParams = useSearchParams();
   const { state, startAnalysis, reset } = useAnalysisStream();
   const started = useRef(false);
-  const saved = useRef(false);
 
   const owner = params.owner;
   const repo = params.repo;
@@ -57,23 +55,6 @@ function AnalysisPageInner() {
       maxFiles,
     });
   }, [owner, repo, focusPath, maxFiles, startAnalysis]);
-
-  useEffect(() => {
-    if (state.status === "done" && !saved.current) {
-      saved.current = true;
-      saveAnalysis({
-        owner,
-        repo,
-        score: parseScore(state.analysisText),
-        stack: state.detectedStack,
-        date: new Date().toISOString(),
-        focusPath,
-      });
-    }
-    if (state.status === "connecting") {
-      saved.current = false;
-    }
-  }, [state.status, state.analysisText, state.detectedStack, owner, repo, focusPath]);
 
   const apiKeyMissing =
     state.status === "idle" &&

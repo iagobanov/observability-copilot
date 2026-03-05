@@ -5,6 +5,9 @@ import { filterAndPrioritize } from "@/lib/analyzer/file-filter";
 import { detectStack } from "@/lib/analyzer/stack-detector";
 import { buildUserMessage } from "@/lib/analyzer/message-builder";
 import { SYSTEM_PROMPT } from "@/lib/analyzer/system-prompt";
+import { db } from "@/db";
+import { analysisRuns } from "@/db/schema";
+import { parseScore } from "@/lib/history";
 
 export const maxDuration = 120;
 
@@ -154,6 +157,23 @@ export async function POST(req: Request) {
         }
 
         send({ type: "analysis_done", fullText });
+
+        // Persist to DB (best-effort — don't break the user's analysis)
+        try {
+          await db.insert(analysisRuns).values({
+            githubUserId: session.user?.id ?? null,
+            owner,
+            repo,
+            score: parseScore(fullText),
+            stack,
+            focusPath,
+            fullMarkdown: fullText,
+            source: "web",
+            filesAnalyzed: fileContents.size,
+          });
+        } catch (dbErr) {
+          console.error("Failed to persist analysis run:", dbErr);
+        }
       } catch (error) {
         const message =
           error instanceof Error ? error.message : "Analysis failed";
