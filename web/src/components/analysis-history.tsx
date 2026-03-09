@@ -80,7 +80,7 @@ export function AnalysisHistory({
             return (
               <Link
                 key={run.id}
-                href={`/analysis/${run.owner}/${run.repo}${run.focusPath ? `?focusPath=${encodeURIComponent(run.focusPath)}` : ""}`}
+                href={`/report/${run.id}`}
                 className="flex items-center justify-between px-6 py-3 hover:bg-muted/50 transition-colors"
               >
                 <div className="flex flex-col gap-0.5 min-w-0">
